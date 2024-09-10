@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrare.in</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <nav><img src="Assets/celebrare-logo.webp" alt=""></nav>
+        <div id="mainDiv">
+            <div id="canvasDiv">
+                <canvas id="myCanvas" width="794" height="550"></canvas>
+                <span id="canvasInput">
+                    <input id="text" type="text">
+                    <button disabled id="add">Add</button>
+                </span>
+            </div>
+            <div id="editButtons">
+                <div id="textStyles">
+                    <select name="fontStyle" id="fontStyle">
+                        <option style="font-family: Arial;" value="Arial">Arial</option>
+                        <option style="font-family: Verdana;" selected value="Verdana">Verdana</option>
+                        <option style="font-family: Georgia;" value="Georgia">Georgia</option>
+                        <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
+                        <option style="font-family: 'Courier New';" value="Courier New">Courier New</option>
+                        <option style="font-family: Tahoma;" value="Tahoma">Tahoma</option>
+                        <option style="font-family: 'Trebuchet MS';" value="Trebuchet MS">Trebuchet MS</option>
+                        <option style="font-family: 'comic sans MS';" value="Comic Sans MS">Comic Sans MS</option>
+                        <option style="font-family: Impact;" value="Impact">Impact</option>
+                        <option style="font-family: 'Lucida Console';" value="Lucida Console">Lucida Console</option>
+                    </select>
+                    <div id="fontSizeDiv">
+                        <button id="minusBtn">-</button>
+                        <input min="16" max="60" value="25" type="number" name="fontSize" id="fontSize">
+                        <button id="plusBtn">+</button>
+                    </div>
+                    <div id="fontStyle">
+                        <label for="bold">
+                            <input type="checkbox" class="checkbox" name="bold" id="bold">
+                            <span><img id="boldImg" src="Assets/icons/bold.svg" alt=""></span>
+                        </label>
+                        <label for="italic">
+                            <input type="checkbox" class="checkbox" name="italic" id="italic">
+                            <span><img id="italicImg" src="Assets/icons/italic.svg" alt=""></span>
+                        </label>
+                        <label for="align">
+                            <input type="checkbox" class="checkbox" name="align" id="align">
+                            <span><img id="alignImg" src="Assets/icons/align.svg" alt=""></span>
+                        </label>
+                        <label for="underline">
+                            <input type="checkbox" class="checkbox" name="underline" id="underline">
+                            <span><img id="underlineImg" src="Assets/icons/underline.svg" alt=""></span>
+                        </label>
+                    </div>
+                </div>
+                <button id="addText">Add Text</button>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="style.js"></script>
+<script src="script.js"></script>
+
+</html>
