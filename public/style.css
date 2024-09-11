@@ -79,9 +79,6 @@ nav img {
     border-radius: 50%;
     cursor: pointer;
 }
-#fontStyle input{
-    appearance: none;
-}
 
 #fontSizeDiv input[type = "number"]{
     width: 50px;
@@ -96,6 +93,10 @@ nav img {
     border: none;
     font-size: large;
     border-radius: 50%;
+}
+
+#fontStyle input{
+    appearance: none;
 }
 
 #addText{
