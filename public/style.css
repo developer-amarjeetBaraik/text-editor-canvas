@@ -16,6 +16,9 @@ nav {
     height: 90px;
     object-fit: contain;
     background-color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 300px;
 }
 
 nav img {
@@ -48,6 +51,7 @@ nav img {
 #canvasInput{
     position: absolute;
     bottom: 20px;
+    visibility: hidden;
 }
 #canvasInput button{
     right: 40px;

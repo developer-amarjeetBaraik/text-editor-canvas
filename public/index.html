@@ -10,7 +10,13 @@
 
 <body>
     <main>
-        <nav><img src="Assets/celebrare-logo.webp" alt=""></nav>
+        <nav>
+            <img src="Assets/celebrare-logo.webp" alt="">
+            <div id="undoRedo">
+                <button id="undo"><img src="Assets/icons/undo.svg" alt=""></button>
+                <button id="redo"><img src="Assets/icons/redo.svg" alt=""></button>
+            </div>
+        </nav>
         <div id="mainDiv">
             <div id="canvasDiv">
                 <canvas id="myCanvas" width="794" height="550"></canvas>
@@ -34,9 +40,9 @@
                         <option style="font-family: 'Lucida Console';" value="Lucida Console">Lucida Console</option>
                     </select>
                     <div id="fontSizeDiv">
-                        <button id="minusBtn">-</button>
+                        <button id="minusBtn" onclick="decreaseFontSize()">-</button>
                         <input min="16" max="60" value="25" type="number" name="fontSize" id="fontSize">
-                        <button id="plusBtn">+</button>
+                        <button id="plusBtn" onclick="increaseFontSize()">+</button>
                     </div>
                     <div id="fontStyle">
                         <label for="bold">

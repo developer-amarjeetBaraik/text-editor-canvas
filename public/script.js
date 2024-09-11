@@ -1,8 +1,11 @@
 const canvas = document.getElementById('myCanvas')
 let ctx = canvas.getContext('2d');
+const canvasInput = document.getElementById('canvasInput')
 //buttons
 let addTextBtn = document.getElementById('addText')
 const addBtn = document.getElementById('add')
+const undoBtn = document.getElementById('undo')
+const redoBtn = document.getElementById('redo')
 //all inputs
 // text input
 const textInput = document.getElementById('text')
@@ -22,8 +25,30 @@ const underlineTextInput = document.getElementById('underline')
 const checkboxes = document.querySelectorAll('.checkbox')
 //eventlistener on all checkboxes
 checkboxes.forEach(i => {
-    i.addEventListener('change', () => { console.log(i), styleCheckbox() })
+    i.addEventListener('change', () => { styleCheckbox() })
 })
+//stop bubbling on canvasInput
+canvasInput.addEventListener('click', ()=>{
+    event.stopPropagation()
+})
+//font size increase
+function increaseFontSize(){
+    fontSizeInput.value = Number(fontSizeInput.value) + 1 
+}
+
+//font size decrease
+function decreaseFontSize(){
+    fontSizeInput.value = Number(fontSizeInput.value) - 1 
+}
+//function to display text input
+addTextBtn.addEventListener('click',()=>{
+    event.stopPropagation()
+    canvasInput.style.visibility = 'visible'
+})
+document.addEventListener('click',()=>{
+    canvasInput.style.visibility = 'hidden'
+})
+
 //finction to change the style of checkbox
 function styleCheckbox(selectedText) {
     if (selectedText) {
@@ -57,32 +82,31 @@ textInput.addEventListener('input', () => {
     }
 })
 
-const texts = [
-    // {
-    //     text: 'Drag me!',
-    //     x: 50,
-    //     y: 100,
-    //     fontStyle: 'Arial',
-    //     fontSize: 50,
-    //     bold: false,
-    //     italic: false,
-    //     align:false,
-    //     underline: false,
-    //     isDragging: false
-    // },
-    // {
-    //     text: "Move me too!",
-    //     x: 200,
-    //     y: 150,
-    //     fontStyle: 'Arial',
-    //     fontSize: 20,
-    //     bold: false,
-    //     italic: false,
-    //     align:false,
-    //     underline: false,
-    //     isDragging: false
-    // }
-]
+const texts = []
+//undo redo
+const undo = [[]]
+const redo = []
+
+
+//function to check if the any changes happen in texts array
+function checkTextsArray() {
+    function checkCondition() {
+        const lastElementOfundo = undo.length - 1
+        const textE = JSON.stringify(texts)
+        const undoE = JSON.stringify(undo[lastElementOfundo])
+        let isSame
+        undoE === textE ? isSame = true : isSame = false
+        if (!isSame) {
+            undo.push(JSON.parse(textE))
+            console.log('pushed')
+        }
+    }
+    checkCondition()
+
+}
+
+//check in every 0.5 sec to texts array
+setInterval(() => { checkTextsArray() }, 500)
 
 //adding text on canvas
 addBtn.addEventListener('click', () => {
@@ -129,10 +153,15 @@ addBtn.addEventListener('click', () => {
         isDragging: false
     }
     texts.push(newText)
-    ctx.fillText(text, x, y)
     textInput.value = ''
     addBtn.setAttribute('disabled', '')
 
+    checkboxes.forEach(i => {
+        i.checked = false
+        styleCheckbox()
+    })
+    drawTexts()
+    canvasInput.style.visibility = 'hidden'
 })
 
 //function to add text on canvas
@@ -148,6 +177,42 @@ function drawTexts() {
 }
 
 drawTexts()
+
+//function for undo
+function undoFn() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let lastElementOfundo = undo.length - 1
+    console.log(lastElementOfundo)
+    undo[lastElementOfundo].forEach(e => {
+        let isBold = e.bold === true ? 'bold' : 'normal'
+        let isItalic = e.italic === true ? 'italic' : 'normal'
+        ctx.font = `${isItalic} ${isBold} ${e.fontSize}px ${e.fontStyle}`;
+        ctx.fillStyle = e.color;
+        ctx.fillText(e.text, e.x, e.y);
+    })
+    redo.push(undo[lastElementOfundo])
+    undo.pop()
+}
+//event listener on undoBtn
+undoBtn.addEventListener('click', () => { undoFn() })
+
+//function for redo
+function redoFn() {
+    if (redo.length > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        redo[0].forEach(e => {
+            let isBold = e.bold === true ? 'bold' : 'normal'
+            let isItalic = e.italic === true ? 'italic' : 'normal'
+            ctx.font = `${isItalic} ${isBold} ${e.fontSize}px ${e.fontStyle}`;
+            ctx.fillStyle = e.color;
+            ctx.fillText(e.text, e.x, e.y);
+        })
+        undo.push(redo[0])
+        redo.shift()
+    }
+}
+//event listener on redoBtn
+redoBtn.addEventListener('click', () => { redoFn() })
 
 //function to check if the mouse is over text or not
 function checkMouseOver(mouseX, mouseY, textObject) {
@@ -216,3 +281,4 @@ canvas.addEventListener('mousemove', (e) => {
 canvas.addEventListener('mouseup', () => {
     return draggableText = null
 })
+
